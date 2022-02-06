@@ -1,12 +1,12 @@
 create database tictac;
-DROP TABLE IF EXISTS tictac;
 use tictac;
+
+DROP TABLE IF EXISTS tictac;
 CREATE TABLE tictac(
 `id`INT primary key auto_increment ,
 `box_id` varchar(50) ,
 `output` varchar(50));
-select * from tictac;
-truncate tictac;
+
 
 
 insert into tictac (`box_id`, `output`) values ( 'zero', '');
@@ -19,4 +19,4 @@ insert into tictac ( `box_id`, `output`) values ('six', '');
 insert into tictac ( `box_id`, `output`) values ('seven', '');
 insert into tictac (`box_id`, `output`) values ('eight', '');
 
-update tictac set output = '';
+

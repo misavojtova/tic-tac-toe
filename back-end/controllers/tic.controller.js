@@ -1,4 +1,6 @@
 const db = require("../db-config");
+let player;
+let input;
 
 const getArr = async (req, res) => {
   try {
@@ -11,11 +13,9 @@ const getArr = async (req, res) => {
 
 const checkWinner = async (req, res) => {
   try {
-    const [check] = await db.query("SELECT output from tictac");
-    const [...output] = check.map((out) => Object.values(out)).flat();
-
-    console.log("wn", output);
-
+    let result = [];
+    const [tictac] = await db.query("Select * from tictac");
+    const output = tictac.map((item) => item.output);
     const conditions = [
       [0, 1, 2],
       [3, 4, 5],
@@ -26,45 +26,48 @@ const checkWinner = async (req, res) => {
       [0, 4, 8],
       [2, 4, 6],
     ];
-    // const isWinner = (result, player) => {
-    //   for (i = 0; i < result.length; i++) {
-    //     console.log(result[i]);
-    //     return result[i].every((el) => {
-    //       console.log(el);
-    //       const res = player.includes(el);
-    //       console.log(res);
-    //       return res;
-    //     });
-    //   }
-    // };
-    const plOne = output.reduce((array, cell, index) => {
-      console.log(array);
-      if (cell === "X") array.push(index);
-      return array;
-    }, []);
 
-    function isSubset(array1, array2) {
-      // returns true if array2 (condition) is a subset of array1
-      return array2.every(function (element) {
-        return array1.includes(element);
+    // Getting inputed indexes of each Player
+    const checkPlayer = (output, input) => {
+      return output.reduce((arr, cell, i) => {
+        if (cell === input) arr.push(i);
+        return arr;
+      }, []);
+    };
+    const currentPlayerCheck = checkPlayer(output, input);
+
+    // Check if condition is present in player's array
+    const isWinner = (player, condit) => {
+      return condit.every(function (element) {
+        return player.includes(element);
+      });
+    };
+    // Loop thru all the conditions
+    for (i = 0; i < conditions.length; i++) {
+      result.push(isWinner(currentPlayerCheck, conditions[i]));
+    }
+    // Loop thru array of (true || false) see if any condition passed and find winner
+    const win = result.find((el) => el === true);
+    if (win)
+      res.status(200).json({
+        msg: `${player} ( ${input} ) . . is a winner 🎉, Congratulations!`,
+        code: "123456",
+      });
+    // Check DraW
+    else if (player === "Player 1" && currentPlayerCheck.length > 4) {
+      res.status(200).json({
+        msg: "No one won it's a draw! Reset and Play Again!",
+        code: "654321",
       });
     }
-    let result = [];
-    for (i = 0; i < conditions.length; i++) {
-      const res = isSubset(plOne, conditions[i]);
-      result.push(res);
-    }
-
-    console.log(result);
-
-    const plTwo = output.reduce((array, cell, index) => {
-      if (cell === "O") array.push(index);
-      return array;
-    }, []);
-
-    console.log("plo", plOne);
-
-    // console.log(isWinner(conditions, plOne));
+    // Check Turn
+    else
+      res.status(200).json({
+        msg: `It's ${
+          player === "Player 1" ? "Player's 2 ( O )" : "Player's 1 ( X )"
+        } . . turn to play!`,
+        code: "789456",
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error });
@@ -74,13 +77,20 @@ const checkWinner = async (req, res) => {
 const postNewData = async (req, res) => {
   try {
     const id = req.params.id;
-    const { player } = req.body;
-    console.log(player);
-    await db.query("UPDATE tictac SET output = ? WHERE id = ?", [
-      player.output,
-      id,
-    ]);
-    res.status(200).send("succesfully updated");
+    const { inputData } = req.body;
+    player = inputData.player;
+    input = inputData.input;
+
+    const [result] = await db.query(
+      "UPDATE tictac SET output = ? WHERE id = ? and length(output) < 1",
+      [inputData.input, id]
+    );
+    result.affectedRows === 1 &&
+      res.status(200).json({ msg: "succesfully updated" });
+    result.affectedRows === 0 &&
+      res
+        .status(200)
+        .json({ msg: " Double click not allowed", code: "852963" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error });
