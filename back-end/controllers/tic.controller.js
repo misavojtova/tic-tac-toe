@@ -44,8 +44,7 @@ const checkWinner = async (req, res) => {
     };
     // Loop thru all the conditions
     for (i = 0; i < conditions.length; i++) {
-      const res = isWinner(currentPlayerCheck, conditions[i]);
-      result.push(res);
+      result.push(isWinner(currentPlayerCheck, conditions[i]));
     }
     // Loop thru array of (true || false) see if any condition passed and find winner
     const win = result.find((el) => el === true);
@@ -54,13 +53,15 @@ const checkWinner = async (req, res) => {
         msg: `${player} ( ${input} ) . . is a winner 🎉, Congratulations!`,
         code: "123456",
       });
+    // Check DraW
     else if (player === "Player 1" && currentPlayerCheck.length > 4) {
-      console.log(player, currentPlayerCheck.length);
       res.status(200).json({
         msg: "No one won it's a draw! Reset and Play Again!",
         code: "654321",
       });
-    } else
+    }
+    // Check Turn
+    else
       res.status(200).json({
         msg: `It's ${
           player === "Player 1" ? "Player's 2 ( O )" : "Player's 1 ( X )"
@@ -84,7 +85,6 @@ const postNewData = async (req, res) => {
       "UPDATE tictac SET output = ? WHERE id = ? and length(output) < 1",
       [inputData.input, id]
     );
-    console.log(result.affectedRows);
     result.affectedRows === 1 &&
       res.status(200).json({ msg: "succesfully updated" });
     result.affectedRows === 0 &&

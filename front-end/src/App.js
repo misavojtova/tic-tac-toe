@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import { FiCircle } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
-
 import "./App.css";
+
 function App() {
   const [playerOne, setPlayerOne] = useState(true);
   const [playertwo, setPlayerTwo] = useState(false);
@@ -86,7 +85,7 @@ function App() {
           })}
       </div>
       <button className='reset-btn' onClick={resetGame}>
-        <h5>Reset Game</h5>
+        <h5 className='reset-btn-title'>Reset Game</h5>
       </button>
     </div>
   );

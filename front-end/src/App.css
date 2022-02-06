@@ -73,7 +73,7 @@ svg.circle {
   border: none;
   border-radius: 20px;
 }
-.reset-btn h5 {
+.reset-btn-title {
   font-size: 1rem;
   letter-spacing: 5px;
 }
