@@ -1,0 +1,44 @@
+.main-grid {
+  display: grid;
+  width: 50vh;
+  height: 50vh;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "zero" "one" "two"
+    "three" "four" "five"
+    "six" "seven" "eight";
+}
+
+.box {
+  border: 1px solid black;
+}
+.box.zero {
+  grid-area: "zero";
+}
+.one {
+  grid-area: "one";
+}
+.box.two {
+  grid-area: "two";
+}
+.three {
+  grid-area: "three";
+}
+.four {
+  grid-area: "four";
+}
+.five {
+  grid-area: "five";
+}
+.six {
+  grid-area: "six";
+}
+
+.seven {
+  grid-area: "seven";
+}
+
+.eight {
+  grid-area: "eight";
+}
