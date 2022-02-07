@@ -1,22 +1,16 @@
-# Tac Tac Toe
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
+  <h1>Tic Tac Toe - Content</h1>
   <ol>
     <li><a href="#project-example">Project Example</a></li>
-    <li><a href="#built-with">Built With</a></li>
     <li><a href="#installation-and-setup-instructions">Installation</a></li>
+    <li><a href="#built-with">Built With</a></li>
     <li><a href="#contacts">Contacts</a></li>
   </ol>
-</details>
+<!-- </details> -->
 
-## Project Example
-<p float="left">
-<img src="" width="250" height="500"> 
-</p>
-
+## Project Example!
+<img src="https://user-images.githubusercontent.com/64092039/152885276-0774d0fc-8cb1-41dd-89a3-33c18ddc91e7.png" width="260" height="380"> 
+  
 ### Installation and Setup Instructions
 
 1. Clone this repository:
@@ -33,7 +27,9 @@ go to `back-end` and find the file `tic-tac-toe-db.sql`
 
 4. Setup dotenv:
 
-Create a `.env` file in the root directory in `back-end`. Add environment-specific variables on new lines in the form of NAME=VALUE.
+Create a `.env` file in the root directory in `back-end`. 
+
+Add environment-specific variables on new lines in the form of NAME=VALUE.
 
 ```dosini
 SERVER_PORT=5001
