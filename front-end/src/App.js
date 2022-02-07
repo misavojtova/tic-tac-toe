@@ -7,9 +7,10 @@ import "./App.css";
 function App() {
   const [playerOne, setPlayerOne] = useState(true);
   const [playertwo, setPlayerTwo] = useState(false);
-  const [output, setOutput] = useState("");
+  const [input, setInput] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [message, setMessage] = useState("Player 1 (X): START THE GAME!");
+  const [message, setMessage] = useState("Player 1 ( X ) . . START THE GAME!");
+
   const [clicked, setClicked] = useState({
     true: false,
     id: "",
@@ -17,7 +18,7 @@ function App() {
 
   const getArr = async () => {
     const { data } = await axios.get("http://localhost:5001/api/tic");
-    setOutput(data);
+    setInput(data);
   };
   useEffect(() => {
     getArr();
@@ -65,21 +66,22 @@ function App() {
 
   return (
     <div className='tic-tac-con'>
+      <h1 className='tic-tac-title'>Tic Tac Toe</h1>
       <div>
         <h2 className='message'>{message}</h2>
       </div>
 
       <div disabled={disabled} className='main-grid'>
-        {output &&
-          output.map((cell) => {
+        {input &&
+          input.map((cell) => {
             return (
               <div
                 key={cell.id}
                 onClick={() => handleClick(cell.id)}
                 className={`box ${cell.box_id}`}
               >
-                {cell.output === "X" && <GrClose className='cross' />}
-                {cell.output === "O" && <FiCircle className='circle' />}
+                {cell.input === "X" && <GrClose className='cross' />}
+                {cell.input === "O" && <FiCircle className='circle' />}
               </div>
             );
           })}

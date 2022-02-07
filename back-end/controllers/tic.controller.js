@@ -13,9 +13,10 @@ const getArr = async (req, res) => {
 
 const checkWinner = async (req, res) => {
   try {
-    let result = [];
+    let testedConditions = [];
     const [tictac] = await db.query("Select * from tictac");
-    const output = tictac.map((item) => item.output);
+    const playersInputArr = tictac.map((item) => item.input);
+    console.log(input);
     const conditions = [
       [0, 1, 2],
       [3, 4, 5],
@@ -28,13 +29,13 @@ const checkWinner = async (req, res) => {
     ];
 
     // Getting inputed indexes of each Player
-    const checkPlayer = (output, input) => {
-      return output.reduce((arr, cell, i) => {
+    const checkPlayer = (playersInputArr, input) => {
+      return playersInputArr.reduce((arr, cell, i) => {
         if (cell === input) arr.push(i);
         return arr;
       }, []);
     };
-    const currentPlayerCheck = checkPlayer(output, input);
+    const currentPlayerArr = checkPlayer(playersInputArr, input);
 
     // Check if condition is present in player's array
     const isWinner = (player, condit) => {
@@ -44,17 +45,17 @@ const checkWinner = async (req, res) => {
     };
     // Loop thru all the conditions
     for (i = 0; i < conditions.length; i++) {
-      result.push(isWinner(currentPlayerCheck, conditions[i]));
+      testedConditions.push(isWinner(currentPlayerArr, conditions[i]));
     }
     // Loop thru array of (true || false) see if any condition passed and find winner
-    const win = result.find((el) => el === true);
+    const win = testedConditions.find((el) => el === true);
     if (win)
       res.status(200).json({
         msg: `${player} ( ${input} ) . . is a winner 🎉, Congratulations!`,
         code: "123456",
       });
     // Check DraW
-    else if (player === "Player 1" && currentPlayerCheck.length > 4) {
+    else if (player === "Player 1" && currentPlayerArr.length > 4) {
       res.status(200).json({
         msg: "No one won it's a draw! Reset and Play Again!",
         code: "654321",
@@ -82,7 +83,7 @@ const postNewData = async (req, res) => {
     input = inputData.input;
 
     const [result] = await db.query(
-      "UPDATE tictac SET output = ? WHERE id = ? and length(output) < 1",
+      "UPDATE tictac SET input = ? WHERE id = ? and length(input) < 1",
       [inputData.input, id]
     );
     result.affectedRows === 1 &&
@@ -99,7 +100,7 @@ const postNewData = async (req, res) => {
 
 const resetData = async (req, res) => {
   try {
-    await db.query("update tictac set output = '' ");
+    await db.query("update tictac set input = '' ");
     res.status(200).send("table reseted...");
   } catch (error) {
     console.log(error);
