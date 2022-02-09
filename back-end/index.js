@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = process.env.SERVER_PORT || 5001;
 const cors = require("cors");
 app.use(express.json());
 const ticRouter = require("./routers/tic.router");
@@ -16,4 +15,5 @@ app.use(
 app.use("/api/tic", ticRouter);
 app.use("/api/tic/winner", ticRouter);
 
-app.listen(port, () => console.log(`Server runs on ${port}...`));
+app.listen(process.env.PORT || 5000),
+  () => console.log(`Server runs on 5000 ...`);

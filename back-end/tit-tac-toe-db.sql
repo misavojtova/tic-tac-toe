@@ -1,7 +1,7 @@
 create database tictac;
-n
-DROP TABLE IF EXISTS tictac;
 use tictac;
+DROP TABLE IF EXISTS tictac;
+
 CREATE TABLE tictac(
 `id`INT primary key auto_increment ,
 `box_id` varchar(50) ,
