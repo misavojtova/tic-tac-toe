@@ -10,7 +10,10 @@
 ## Project Example!
 
 <img src="https://user-images.githubusercontent.com/64092039/152885276-0774d0fc-8cb1-41dd-89a3-33c18ddc91e7.png" width="260" height="380"> 
-  
+
+ [CLICK to check the deployed version here... ](https://happy-keller-d699cf.netlify.app/)
+
+
 ### Installation and Setup Instructions
 
 1. Clone this repository:
